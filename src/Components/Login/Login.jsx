@@ -9,6 +9,7 @@ import { BASE_URL } from '../../Utils/constants';
 const Login = () => {
   const [emailId, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error,setError]=useState('')
   const despatch = useDispatch();
   const navigate = useNavigate();
   
@@ -24,7 +25,7 @@ navigate("/feed")
 }
 
 catch (err){
-  console.log(err)
+  setError(err?.response?.data||"something went wrong")
 }
   };
 
@@ -57,6 +58,7 @@ catch (err){
               placeholder="Enter your password"
             />
           </label>
+          <p className='text-red-500'>{error}</p>
           <div className="card-actions justify-center m-2">
             <button className="btn btn-primary" onClick={handleLogin}>
               Login
