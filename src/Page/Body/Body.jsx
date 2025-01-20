@@ -5,7 +5,7 @@ import Footer from '../../Components/Footer/Footer'
 import axios from 'axios'
 import {BASE_URL}  from '../../Utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import {addUser} from "../../Utils/userSlice"
+import {addUser, removeUser} from "../../Utils/userSlice"
 import { useNavigate } from 'react-router-dom'
 const Body = () => {
 
@@ -19,17 +19,20 @@ try {  const res = await axios.get(BASE_URL+"/profile", {
   }
 )
 dispatch(addUser(res.data))
+
 }
 catch (err){
 if(err.status === 401){
   navigate("/login")
 }
-  console.log(err)
+  console.error(err)
 }
 }
 
 useEffect(()=>{
+if(!userData){
   fetchUser();
+}
 },[])
 
   return (

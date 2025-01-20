@@ -18,7 +18,7 @@ try{const res = await axios.post(BASE_URL+"/login",{
   emailId,
   password,
 },{withCredentials:true})
-console.log(res.data)
+
 despatch(addUser(res.data))
 
 navigate("/feed")

@@ -24,3 +24,4 @@
 -if token is not present , redirect user to login page 
 
 -Feature logout
+-build the user card on the feed
