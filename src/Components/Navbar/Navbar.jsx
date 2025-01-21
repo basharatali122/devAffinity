@@ -31,7 +31,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300">
     <div className="flex-1">
-      <Link to="/" className="btn btn-ghost text-xl">devAffinity</Link>
+      <Link to="/feed" className="btn btn-ghost text-xl">devAffinity</Link>
     </div>
  {user && (   <div className="flex-none gap-2">
       <div className="form-control">Welcome, {user.firstName}</div>
@@ -52,7 +52,7 @@ const Navbar = () => {
               <span className="badge">New</span>
             </Link>
           </li>
-          <li><a>Settings</a></li>
+          <li><Link to="/connections">Connections</Link></li>
           <li><a onClick={handleLogout}>Logout</a></li>
         </ul>
       </div>

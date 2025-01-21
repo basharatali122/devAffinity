@@ -25,3 +25,7 @@
 
 -Feature logout
 -build the user card on the feed
+
+-Edit prfile feature
+-Show Toast Message on save of profile
+-See all my connections

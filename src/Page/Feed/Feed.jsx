@@ -34,7 +34,7 @@ useEffect(()=>{
 
   return feed &&(
     <div className='flex justify-center py-2'>
-      <Usercard  user={feed[8]}/>
+      <Usercard  user={feed[0]}/>
     </div>
   )
 }
