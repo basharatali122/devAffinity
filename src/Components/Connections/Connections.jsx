@@ -6,7 +6,7 @@ import { addConnections } from "../../Utils/connectionSlice";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
-  console.log("Redux State (connections):", useSelector((store) => store.connections)); 
+  
   const dispatch = useDispatch();
 
   const fetchConnections = async () => {
@@ -15,9 +15,9 @@ const Connections = () => {
         withCredentials: true,
       });
 
-      console.log(res.data.data);
+     
       dispatch(addConnections(res.data.data));
-      console.log("dispatch: ",dispatch(addConnections(res.data.data)))
+      
     } catch (err) {}
   };
 
@@ -35,10 +35,10 @@ const Connections = () => {
 
       {connections.map((connection) => {
 
-const {firstName,lastName,age,gender,about,photoUrl}=connection;
+const {firstName,lastName,age,gender,about,photoUrl,_id}=connection;
 
 return(
-<div className="flex m-4 rounded-lg bg-base-300 w-1/2 mx-auto">
+<div  key={_id} className="flex m-4 rounded-lg bg-base-300 w-1/2 mx-auto">
   <div>
 <img src={photoUrl} alt="photo" className="w-20 h-20 rounded-full"/>
   </div>

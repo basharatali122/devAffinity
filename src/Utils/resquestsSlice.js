@@ -11,7 +11,7 @@ const requestsSlice = createSlice({
             return newArray
         }
     }
-})\
+})
 
 export const{addRequest,removeRequest}=requestsSlice.actions;
 
