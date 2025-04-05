@@ -36,7 +36,7 @@ if(!userData){
 },[])
 
   return (
-    <div>
+    <div >
         <Navbar/>
         <Outlet/>
         <Footer/>

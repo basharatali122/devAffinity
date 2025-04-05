@@ -10,6 +10,7 @@ import Feed from './Page/Feed/Feed'
 import Profile from './Components/Profile/Profile'
 import Connections from './Components/Connections/Connections'
 import Requests from './Components/Requests/Requests'
+import Chat from './Components/Chat/Chat'
 
 
 const App = () => {
@@ -29,6 +30,9 @@ const App = () => {
       <Route path='/profile' element={<Profile/>}></Route>
       <Route path='/connections' element={<Connections/>}></Route>
       <Route path='/requests' element={<Requests/>}></Route>
+      <Route path='/chat/:requestId' element={<Chat/>}></Route>
+
+
       </Route>
      
 

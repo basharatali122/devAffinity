@@ -29,3 +29,6 @@
 -Edit prfile feature
 -Show Toast Message on save of profile
 -See all my connections
+
+-accept or reject request
+-signup page and new user signup
