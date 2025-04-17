@@ -1,41 +1,55 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { createSocketConnection } from "../../Utils/socket";
 
 const Chat = () => {
   const { requestId } = useParams();
-  const [message , setMessage]=useState([{text:"hello world"}])
-  console.log(requestId);
+  const [message, setMessage] = useState([{ text: "hello world" }]);
+  const user = useSelector((state) => state.user);
+  const userId = user?.id;
+
+  useEffect(() => {
+    const socket = createSocketConnection();
+    // as soon as the page is loaded connection is made and join chatt event is emitted
+
+    socket.emit("joinChat", { userId, requestId });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div className="w-1/2 mx-auto m-5 border border-gray-600 h-[70vh] flex flex-col">
       <h1 className="p-5 border-b border-gray-600">Chat</h1>
-      
+
       <div className="flex-1 overflow-auto p-5">
         {/* Display messages */}
 
         {message.map((msg, index) => {
-  return (
-    <React.Fragment key={index}>
-      <div className="chat chat-start">
-        <div className="chat-header">
-          Obi-Wan Kenobi
-          <time className="text-xs opacity-50">2 hours ago</time>
-        </div>
-        <div className="chat-bubble">You were the Chosen One!</div>
-        <div className="chat-footer opacity-50">Seen</div>
-      </div>
-      <div className="chat chat-start">
-        <div className="chat-header">
-          Obi-Wan Kenobi
-          <time className="text-xs opacity-50">2 hour ago</time>
-        </div>
-        <div className="chat-bubble">I loved you.</div>
-        <div className="chat-footer opacity-50">Delivered</div>
-      </div>
-    </React.Fragment>
-  );
-})}
-
+          return (
+            <React.Fragment key={index}>
+              <div className="chat chat-start">
+                <div className="chat-header">
+                  Obi-Wan Kenobi
+                  <time className="text-xs opacity-50">2 hours ago</time>
+                </div>
+                <div>{msg.text}</div>
+                <div className="chat-bubble">You were the Chosen One!</div>
+                <div className="chat-footer opacity-50">Seen</div>
+              </div>
+              <div className="chat chat-start">
+                <div className="chat-header">
+                  Obi-Wan Kenobi
+                  <time className="text-xs opacity-50">2 hour ago</time>
+                </div>
+                <div className="chat-bubble">I loved you.</div>
+                <div className="chat-footer opacity-50">Delivered</div>
+              </div>
+            </React.Fragment>
+          );
+        })}
       </div>
 
       <div className="p-5 border-t border-gray-600 flex items-center gap-2">
