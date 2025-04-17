@@ -7,18 +7,21 @@ const Chat = () => {
   const { requestId } = useParams();
   const [message, setMessage] = useState([{ text: "hello world" }]);
   const user = useSelector((state) => state.user);
-  const userId = user?.id;
+  const userId = user?._id;
 
   useEffect(() => {
+    if (!userId||!requestId) {
+      return;
+    }
     const socket = createSocketConnection();
     // as soon as the page is loaded connection is made and join chatt event is emitted
 
-    socket.emit("joinChat", { userId, requestId });
+    socket.emit("joinChat", {firstName:user.firstName, userId, requestId });
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [userId, requestId]);
 
   return (
     <div className="w-1/2 mx-auto m-5 border border-gray-600 h-[70vh] flex flex-col">
