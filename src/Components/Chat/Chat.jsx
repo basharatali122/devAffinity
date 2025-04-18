@@ -5,26 +5,45 @@ import { createSocketConnection } from "../../Utils/socket";
 
 const Chat = () => {
   const { requestId } = useParams();
-  const [message, setMessage] = useState([{ text: "hello world" }]);
+  const [message, setMessage] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
   const user = useSelector((state) => state.user);
   const userId = user?._id;
 
   useEffect(() => {
-    if (!userId||!requestId) {
+    if (!userId || !requestId) {
       return;
     }
     const socket = createSocketConnection();
     // as soon as the page is loaded connection is made and join chatt event is emitted
 
-    socket.emit("joinChat", {firstName:user.firstName, userId, requestId });
+    socket.emit("joinChat", { firstName: user.firstName, userId, requestId });
+
+    socket.on("messageReceived",({firstName,text})=>{
+
+      console.log(firstName+ " "+ text)
+
+      setMessage((message)=>[...message,{firstName,text}])
+    })
 
     return () => {
       socket.disconnect();
     };
   }, [userId, requestId]);
 
+  const sendMessage = () => {
+    const socket = createSocketConnection();
+    socket.emit("sendMessage", {
+      firstName: user.firstName,
+      userId,
+      requestId,
+      text: newMessage,
+    });
+    setNewMessage("")
+  };
+
   return (
-    <div className="w-1/2 mx-auto m-5 border border-gray-600 h-[70vh] flex flex-col">
+    <div className="w-3/4 mx-auto m-5 border border-gray-600 h-[70vh] flex flex-col">
       <h1 className="p-5 border-b border-gray-600">Chat</h1>
 
       <div className="flex-1 overflow-auto p-5">
@@ -35,21 +54,14 @@ const Chat = () => {
             <React.Fragment key={index}>
               <div className="chat chat-start">
                 <div className="chat-header">
-                  Obi-Wan Kenobi
+                {msg.firstName}
                   <time className="text-xs opacity-50">2 hours ago</time>
                 </div>
                 <div>{msg.text}</div>
-                <div className="chat-bubble">You were the Chosen One!</div>
+                <div className="chat-bubble">{msg.text}</div>
                 <div className="chat-footer opacity-50">Seen</div>
               </div>
-              <div className="chat chat-start">
-                <div className="chat-header">
-                  Obi-Wan Kenobi
-                  <time className="text-xs opacity-50">2 hour ago</time>
-                </div>
-                <div className="chat-bubble">I loved you.</div>
-                <div className="chat-footer opacity-50">Delivered</div>
-              </div>
+             
             </React.Fragment>
           );
         })}
@@ -57,11 +69,18 @@ const Chat = () => {
 
       <div className="p-5 border-t border-gray-600 flex items-center gap-2">
         <input
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)
+           
+          }
           type="text"
           className="flex-1 border border-gray-400 rounded py-2 text-white"
           placeholder="Type your message..."
         />
-        <button className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">
+        <button
+          onClick={sendMessage}
+          className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600"
+        >
           Send
         </button>
       </div>
